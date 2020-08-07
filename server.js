@@ -40,7 +40,7 @@ function start() {
       } else if (res.option === "Add a role") {
         addRoles();
       } else if (res.option === "Update employee roles") {
-        // updateEmployeeRoles();
+        updateEmployeeRoles();
       } else if (res.option === "View all employees") {
         viewAllEmployees();
       } else if (res.option === "View all company information") {
@@ -267,27 +267,26 @@ function updateEmployeeRoles() {
           name: "employee",
           type: "list",
           message: "Which employee would you like to edit their role?",
-          choices: employeeArray
+          choices: employeeArray,
         },
         {
-            name: "title",
-            type: "list",
-            message: "What is your employees new role?",
-          },
-        
+          name: "title",
+          type: "list",
+          message: "What is your employees new role?",
+          choices: ["Cashier", "Manager", "Janitor", "Talent"],
+        },
       ])
       .then(function (reply) {
-        connection.query(
-          var query = connection.query(
-            "UPDATE employee SET ? WHERE ?",
-            [
-              {
-                role_id: 100,
-              },
-              {
-                first_name: x,
-              },
-            ]
+        var query = connection.query(
+          "UPDATE employee SET ? WHERE ?",
+          [
+            {
+              role_id: 100,
+            },
+            {
+              first_name: x,
+            },
+          ],
           function (err, res) {
             if (err) throw err;
             console.table(res.affectedRows + "employee added \n");
