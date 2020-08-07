@@ -29,6 +29,7 @@ function start() {
         "View all employees",
         "View all departments",
         "View all role types",
+        "View all company information",
         "Exit",
       ],
     })
@@ -187,11 +188,8 @@ function addRoles() {
 
 function addEmployee() {
   let roleArray = [];
-  connection.query("SELECT * FROM roles", function (err, roles) {
+  connection.query("SELECT * FROM roles", function (err, res) {
     if (err) throw err;
-    for (var i = 0; i < roles.length; i++) {
-      roleArray.push(roles[i].title);
-    }
     inquirer
       .prompt([
         {
@@ -205,10 +203,16 @@ function addEmployee() {
           message: "Add your employee's last name.",
         },
         {
-          name: "role",
           type: "list",
+          name: "role",
           message: "Choose the role",
-          choices: roleArray,
+          choices: function () {
+            for (var i = 0; i < res.length; i++) {
+              roleArray.push(res[i].title);
+              console.log(roleArray);
+            }
+            return roleArray;
+          },
         },
         // {
         //   type: "list",
@@ -220,9 +224,9 @@ function addEmployee() {
       ])
       .then(function (reply) {
         let roleId;
-        let managerId;
+        // let managerId;
         console.table("Adding a new employee...\n");
-        roles.forEach((role) => {
+        res.forEach((role) => {
           console.log(role.title === reply.role);
           if (role.title === reply.role) {
             console.log(role.id);
@@ -254,45 +258,45 @@ function addEmployee() {
   });
 }
 
-function updateEmployeeRoles() {
-  let employeeArray = [];
-  connection.query("SELECT * FROM employee", function (err, employee) {
-    if (err) throw err;
-    for (var i = 0; i < employee.length; i++) {
-      employeeArray.push(employee[i].title);
-    }
-    inquirer
-      .prompt([
-        {
-          name: "employee",
-          type: "list",
-          message: "Which employee would you like to edit their role?",
-          choices: employeeArray,
-        },
-        {
-          name: "title",
-          type: "list",
-          message: "What is your employees new role?",
-          choices: ["Cashier", "Manager", "Janitor", "Talent"],
-        },
-      ])
-      .then(function (reply) {
-        var query = connection.query(
-          "UPDATE employee SET ? WHERE ?",
-          [
-            {
-              role_id: 100,
-            },
-            {
-              first_name: x,
-            },
-          ],
-          function (err, res) {
-            if (err) throw err;
-            console.table(res.affectedRows + "employee added \n");
-            start();
-          }
-        );
-      });
-  });
-}
+// function updateEmployeeRoles() {
+//   let employeeArray = [];
+//   connection.query("SELECT * FROM employee", function (err, employee) {
+//     if (err) throw err;
+//     for (var i = 0; i < employee.length; i++) {
+//       employeeArray.push(employee[i].title);
+//     }
+//     inquirer
+//       .prompt([
+//         {
+//           name: "employee",
+//           type: "list",
+//           message: "Which employee would you like to edit their role?",
+//           choices: employeeArray,
+//         },
+//         {
+//           name: "title",
+//           type: "list",
+//           message: "What is your employees new role?",
+//           choices: ["Cashier", "Manager", "Janitor", "Talent"],
+//         },
+//       ])
+//       .then(function (reply) {
+//         var query = connection.query(
+//           "UPDATE employee SET ? WHERE ?",
+//           [
+//             {
+//               role_id: 100,
+//             },
+//             {
+//               first_name: x,
+//             },
+//           ],
+//           function (err, res) {
+//             if (err) throw err;
+//             console.table(res.affectedRows + "employee added \n");
+//             start();
+//           }
+//         );
+//       });
+//   });
+// }

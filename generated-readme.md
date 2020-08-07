@@ -5,7 +5,7 @@
 - [GitHub Repository Link](https://github.com/mkgude)
 - mkgude@gmail.com
 - [GitHub Project Repository link](https://github.com/mkgude/hw12-employeemanager)
-- [Video How-To Link](x)
+- [Video How-To Link](https://drive.google.com/file/d/1LIvYfCpOXOvYn4Sd8HK6mHepvkEv3HEB/view)
 
 ### Table of Contents
 
