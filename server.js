@@ -41,7 +41,7 @@ function start() {
       } else if (res.option === "Add a role") {
         addRoles();
       } else if (res.option === "Update employee roles") {
-        updateEmployeeRoles();
+        updateEmployeeRole();
       } else if (res.option === "View all employees") {
         viewAllEmployees();
       } else if (res.option === "View all company information") {
