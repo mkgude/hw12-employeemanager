@@ -180,12 +180,6 @@ function addRoles() {
   });
 }
 
-// bonus
-// update employee managers
-// view employees by manager
-// delete dept, roles, employees
-// view total depart salaries
-
 function addEmployee() {
   let roleArray = [];
   connection.query("SELECT * FROM roles", function (err, res) {
@@ -258,45 +252,68 @@ function addEmployee() {
   });
 }
 
-// function updateEmployeeRoles() {
-//   let employeeArray = [];
-//   connection.query("SELECT * FROM employee", function (err, employee) {
-//     if (err) throw err;
-//     for (var i = 0; i < employee.length; i++) {
-//       employeeArray.push(employee[i].title);
-//     }
-//     inquirer
-//       .prompt([
-//         {
-//           name: "employee",
-//           type: "list",
-//           message: "Which employee would you like to edit their role?",
-//           choices: employeeArray,
-//         },
-//         {
-//           name: "title",
-//           type: "list",
-//           message: "What is your employees new role?",
-//           choices: ["Cashier", "Manager", "Janitor", "Talent"],
-//         },
-//       ])
-//       .then(function (reply) {
-//         var query = connection.query(
-//           "UPDATE employee SET ? WHERE ?",
-//           [
-//             {
-//               role_id: 100,
-//             },
-//             {
-//               first_name: x,
-//             },
-//           ],
-//           function (err, res) {
-//             if (err) throw err;
-//             console.table(res.affectedRows + "employee added \n");
-//             start();
-//           }
-//         );
-//       });
-//   });
-// }
+function updateEmployeeRole() {
+  let employeeLastName = [];
+  connection.query("SELECT last_name FROM employee", function (err, res) {
+    if (err) throw err;
+    console.log(res);
+    for (var i = 0; i < res.length; i++) {
+      employeeLastName.push(res[i].last_name);
+    }
+    console.log(employeeLastName);
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          message: "Enter the employee’s last name",
+          choices: employeeLastName,
+          name: "name",
+        },
+      ])
+      .then(function (res) {
+        connection.query("SELECT title FROM roles", function (err, res) {
+          let rolesArray = [];
+          if (err) throw err;
+          console.log(res);
+          for (var i = 0; i < res.length; i++) {
+            rolesArray.push(res[i].title);
+          }
+          console.log(rolesArray);
+        });
+        inquirer
+          .prompt([
+            {
+              type: "list",
+              message: "Pick a role",
+              choices: rolesArray,
+              name: "newrole",
+            },
+          ])
+          .then(function (res) {
+            let roleId = [];
+            for (i = 0; i < res.length; i++) {
+              if (res[i].title === newrole) {
+                roleId.push(res[i].title);
+              }
+              console.log(roles.id);
+            }
+            connection.query(
+              "UPDATE employee SET ? WHERE ?",
+              [
+                {
+                  role_id: roleId,
+                },
+                {
+                  last_name: name,
+                },
+              ],
+              function (err, res) {
+                if (err) throw err;
+                console.table(res.affectedRows + "employee added \n");
+                start();
+              }
+            );
+          });
+      });
+  });
+}
